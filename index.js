@@ -31,12 +31,21 @@ async function run() {
     await client.connect();
 
     const menuCollection = client.db("starMarkDB").collection("menus");
+    const reviewsCollection=client.db("starMarkDB").collection("reviews")
+
+    // get the menus data 
 
     app.get('/menus',async(req,res)=>{
         const result = await menuCollection.find().toArray()
         res.send(result) 
     })
 
+    // get the reviews data 
+
+    app.get('/reviews',async(req,res)=>{
+        const result = await reviewsCollection.find().toArray()
+        res.send(result) 
+    })
 
 
 
