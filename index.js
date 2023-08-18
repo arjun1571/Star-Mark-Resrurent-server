@@ -32,6 +32,7 @@ async function run() {
 
     const menuCollection = client.db("starMarkDB").collection("menus");
     const reviewsCollection=client.db("starMarkDB").collection("reviews")
+    const cartCollection=client.db("starMarkDB").collection("carts")
 
     // get the menus data 
 
@@ -45,6 +46,27 @@ async function run() {
     app.get('/reviews',async(req,res)=>{
         const result = await reviewsCollection.find().toArray()
         res.send(result) 
+    })
+
+    // put the data 
+    app.post("/carts", async(req,res)=>{
+      const items = req.body;
+      console.log(items);
+      const result = await cartCollection.insertOne(items)
+      res.send(result)
+
+    })
+
+    // get the cart data 
+    app.get('/carts',async(req,res)=>{
+      const email = req.query.email;
+      if(!email){
+        res.send([])
+      }
+      const query = {email: email}
+      const result = await cartCollection.find(query).toArray()
+      res.send(result)
+
     })
 
 
