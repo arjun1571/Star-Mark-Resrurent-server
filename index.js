@@ -127,9 +127,17 @@ async function run() {
     })
 
     // post item menu 
-    app.get("/menus",async(req,res)=>{
+    app.post("/menus",async(req,res)=>{
       const newItem = req.body;
       const result = await menuCollection.insertOne(newItem)
+      res.send(result)
+    })
+
+    // delete the menu 
+    app.delete("/menus/:id",async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await menuCollection.deleteOne(query)
       res.send(result)
     })
 
